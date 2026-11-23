@@ -1,6 +1,8 @@
 ﻿# Gemeinsame Hilfen für einrichten.ps1 und aktualisieren.ps1 (Windows PowerShell 5.1 und neuer).
 # Wird per Punkt eingebunden (". gemeinsam.ps1") und kennt deshalb den Schalter -OhneFragen des Aufrufers.
 $ErrorActionPreference = 'Continue'
+# Umlaute: Ausgaben von node und git kommen als UTF-8 – sonst stünde im Fenster "EintrÃ¤ge" statt "Einträge"
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
 $Root = Split-Path -Parent $PSScriptRoot
 $Port = if ($env:PORT) { [int]$env:PORT } else { 3000 }
 $Bat = Join-Path $Root 'Server starten.bat'
