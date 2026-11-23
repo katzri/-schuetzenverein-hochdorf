@@ -57,10 +57,27 @@ Ziel: Server läuft im eigenen Fenster, Desktop-Verknüpfung ist da, Handys erre
 
 ### Linux
 
-`bash scripts/einrichten.sh` – prüft Node.js, übernimmt Daten, richtet auf Wunsch den systemd-Dienst
-`schuetzenverein` ein. Node.js ab 18: Debian 12, Ubuntu 24.04, Raspberry Pi OS `sudo apt install nodejs`;
-Ubuntu 22.04 `sudo snap install node --classic --channel=20`. Start ohne Dienst: `./server-starten.sh`.
-PINs beim ersten Start als Dienst: `journalctl -u schuetzenverein -n 40`. Firewall: `sudo ufw allow 3000/tcp`.
+1. System erkennen: `cat /etc/os-release`. Linux Mint 22 = Ubuntu 24.04, Linux Mint 21 = Ubuntu 22.04.
+2. **`sudo` braucht das Passwort des Nutzers** – das kannst du nicht eingeben. Jeden sudo-Befehl (apt, systemctl,
+   ufw, tee nach /etc) dem Nutzer fertig zum Kopieren geben, ihn in einem **zweiten Terminal-Fenster** ausführen lassen
+   und danach mit der Prüfung weitermachen.
+3. Git: `sudo apt install -y git`. Node.js ab 18 (aktuelle LTS-Linien: 22, 24, 26; 20 und älter sind abgekündigt):
+   - Linux Mint 22, Ubuntu 24.04, Debian 12, Raspberry Pi OS: `sudo apt install -y nodejs` (liefert 18 – reicht).
+   - Linux Mint 21, Ubuntu 22.04, Debian 11: das apt-Paket ist zu alt. **Auf Linux Mint ist snap gesperrt** – nicht
+     verwenden. Stattdessen eine aktuelle LTS-Version aus dem offiziellen NodeSource-Repository installieren
+     (https://github.com/nodesource/distributions – die dort aktuell angegebenen Befehle nehmen) oder die offiziellen
+     Linux-Binärdateien von https://nodejs.org. Vorher den Nutzer fragen.
+4. Klonen nach `~/schuetzenverein`. Daten vom alten Rechner: Ordner auf dem USB-Stick (`ls /media/$USER`) mit
+   `journal.jsonl` und `config.json`; vorher prüfen mit `node scripts/daten-pruefen.js <Ordner>`.
+5. Einrichten: Den Nutzer `bash ~/schuetzenverein/scripts/einrichten.sh` im eigenen Terminal ausführen lassen – es
+   fragt nach Daten und Autostart und braucht für den systemd-Dienst `schuetzenverein` einmal das sudo-Passwort.
+   Ohne Rückfragen (nur der Teil ohne sudo): `SVH_DATEN="<Ordner oder leer>" SVH_AUTOSTART=nein SVH_STARTEN=nein bash scripts/einrichten.sh`.
+6. Prüfen: `systemctl status schuetzenverein` und `curl -s -o /dev/null -w "%{http_code}" http://localhost:3000` → 200.
+   Ohne übernommene Daten stehen die PINs einmalig in `journalctl -u schuetzenverein -n 40` – dem Nutzer zeigen.
+   Start ohne Dienst: `./server-starten.sh` (Fenster offen lassen).
+7. Firewall, falls aktiv: `sudo ufw allow 3000/tcp`. Rechner darf nicht einschlafen:
+   `sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target`.
+8. Adresse mit `hostname -I` nennen; in der FRITZ!Box feste IP, Verwaltung → QR-Codes neu drucken (neue Adresse).
 
 ## Aktualisieren
 

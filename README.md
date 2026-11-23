@@ -32,18 +32,38 @@ Ohne übernommene Daten zeigt das Server-Fenster beim allerersten Start einmalig
 
 `Einrichten.bat` darf jederzeit erneut gestartet werden; vorhandene Daten bleiben dabei unverändert.
 
-## Linux (Ubuntu, Debian, Raspberry Pi OS)
+## Linux (Linux Mint, Ubuntu, Debian, Raspberry Pi OS)
+
+**Am einfachsten mit Claude Code** (braucht ein Claude-Abo, z. B. Pro). Terminal öffnen und eingeben:
 
 ```
+sudo apt update && sudo apt install -y curl git
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+Danach ein **neues** Terminal öffnen, `claude` eingeben und im Browser mit dem Claude-Konto anmelden
+(meldet das Terminal „claude: Befehl nicht gefunden“: einmal ab- und wieder anmelden). Dann schreiben:
+
+> Klone https://github.com/katzri/-schuetzenverein-hochdorf nach ~/schuetzenverein und richte den Server nach der CLAUDE.md darin ein.
+
+Befehle mit `sudo` brauchen dein Passwort – die gibt Claude dir zum Eintippen in einem zweiten Terminal-Fenster.
+
+**Oder von Hand:**
+
+```
+sudo apt update && sudo apt install -y git nodejs
 git clone https://github.com/katzri/-schuetzenverein-hochdorf.git ~/schuetzenverein && bash ~/schuetzenverein/scripts/einrichten.sh
 ```
 
 Das Skript prüft Node.js (ab Version 18), übernimmt auf Wunsch Daten und richtet auf Wunsch einen Autostart-Dienst ein.
+Linux Mint 22 und Ubuntu 24.04 bringen ein passendes Node.js mit. Bei **Linux Mint 21** (Ubuntu 22.04) ist das
+mitgelieferte zu alt und „snap“ ist gesperrt – dann am besten den Weg mit Claude Code nehmen.
 
 ## Einrichten mit Claude Code
 
-Falls etwas hakt: Auf dem Server-PC Claude installieren (Desktop-App von https://claude.ai/download, dort den Bereich
-„Code“ öffnen) und den Ordner `C:\Schuetzenverein` wählen – oder im Terminal im Ordner `claude` starten. Dann einfach schreiben:
+Falls unter Windows etwas hakt: Auf dem Server-PC Claude installieren (Desktop-App von https://claude.ai/download, dort
+den Bereich „Code“ öffnen) und den Ordner `C:\Schuetzenverein` wählen – oder im Terminal im Ordner `claude` starten.
+Unter Linux siehe oben. Dann einfach schreiben:
 
 > Richte den Server ein. Alles steht in der CLAUDE.md.
 

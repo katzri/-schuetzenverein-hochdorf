@@ -24,8 +24,10 @@ if [ "${major:-0}" -ge 18 ] 2>/dev/null; then
   ok "Node.js $(node -v) ist installiert."
 else
   warn 'Node.js 18 oder neuer fehlt. Bitte installieren und dieses Skript danach erneut starten:'
-  echo '         Debian 12, Ubuntu 24.04, Raspberry Pi OS:  sudo apt install nodejs'
-  echo '         Ubuntu 22.04 (dort ist das apt-Paket zu alt):  sudo snap install node --classic --channel=20'
+  echo '         Linux Mint 22, Ubuntu 24.04, Debian 12, Raspberry Pi OS:  sudo apt install -y nodejs'
+  echo '         Linux Mint 21, Ubuntu 22.04 (dort ist das apt-Paket zu alt, snap ist bei Mint gesperrt):'
+  echo '           aktuelle LTS-Version über https://github.com/nodesource/distributions oder https://nodejs.org'
+  echo '         Am einfachsten: Claude Code installieren und es einrichten lassen (siehe README).'
   exit 1
 fi
 
