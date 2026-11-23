@@ -16,7 +16,7 @@ Danach das Fenster schließen und ein **neues** öffnen.
 **Dann nur noch diese eine Zeile** in die Eingabeaufforderung oder PowerShell kopieren und Enter drücken:
 
 ```
-cmd /c "git clone https://github.com/katzri/schuetzenverein-hochdorf.git C:\Schuetzenverein && C:\Schuetzenverein\Einrichten.bat"
+cmd /c "git clone https://github.com/katzri/-schuetzenverein-hochdorf.git C:\Schuetzenverein && C:\Schuetzenverein\Einrichten.bat"
 ```
 
 Eine GitHub-Anmeldung ist dafür nicht nötig. Danach erledigt die Einrichtung den Rest und fragt nur kurz nach:
@@ -35,7 +35,7 @@ Ohne übernommene Daten zeigt das Server-Fenster beim allerersten Start einmalig
 ## Linux (Ubuntu, Debian, Raspberry Pi OS)
 
 ```
-git clone https://github.com/katzri/schuetzenverein-hochdorf.git ~/schuetzenverein && bash ~/schuetzenverein/scripts/einrichten.sh
+git clone https://github.com/katzri/-schuetzenverein-hochdorf.git ~/schuetzenverein && bash ~/schuetzenverein/scripts/einrichten.sh
 ```
 
 Das Skript prüft Node.js (ab Version 18), übernimmt auf Wunsch Daten und richtet auf Wunsch einen Autostart-Dienst ein.
@@ -49,7 +49,7 @@ Falls etwas hakt: Auf dem Server-PC Claude installieren (Desktop-App von https:/
 
 Ist der Ordner noch gar nicht da:
 
-> Klone https://github.com/katzri/schuetzenverein-hochdorf nach C:\Schuetzenverein und richte den Server nach der CLAUDE.md darin ein.
+> Klone https://github.com/katzri/-schuetzenverein-hochdorf nach C:\Schuetzenverein und richte den Server nach der CLAUDE.md darin ein.
 
 In der [CLAUDE.md](CLAUDE.md) steht alles, was Claude Code dafür wissen muss.
 
