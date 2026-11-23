@@ -19,8 +19,7 @@ Danach das Fenster schließen und ein **neues** öffnen.
 cmd /c "git clone https://github.com/katzri/schuetzenverein-hochdorf.git C:\Schuetzenverein && C:\Schuetzenverein\Einrichten.bat"
 ```
 
-Das Repository ist privat: Beim ersten Mal erscheint ein GitHub-Anmeldefenster – mit dem Konto **katzri** anmelden
-(„Sign in with your browser“). Danach erledigt die Einrichtung den Rest und fragt nur kurz nach:
+Eine GitHub-Anmeldung ist dafür nicht nötig. Danach erledigt die Einrichtung den Rest und fragt nur kurz nach:
 
 1. installiert **Node.js**, falls es fehlt (Windows fragt dabei nach Erlaubnis),
 2. übernimmt auf Wunsch die **bisherigen Daten** – z. B. den Backup-Ordner vom USB-Stick (Buchungen, Produkte, PINs),
@@ -67,7 +66,8 @@ In der [CLAUDE.md](CLAUDE.md) steht alles, was Claude Code dafür wissen muss.
 ## Daten
 
 Die echten Daten liegen in `server/data` (Buchungen und Zugänge) und werden bei jeder Buchung nach `backup` gespiegelt.
-Beide Ordner sind **nicht** im Repository – sie bleiben auf dem Server-PC. Umzug auf einen anderen Rechner: in der
+Beide Ordner sind **nicht** im Repository – sie bleiben auf dem Server-PC. Das Repository ist öffentlich und enthält
+nur das Programm: keine Buchungen, keine PINs, kein WLAN-Passwort. Umzug auf einen anderen Rechner: in der
 Verwaltung → Sicherung einen USB-Stick als Backup eintragen und den Stick-Ordner beim Einrichten auf dem neuen Rechner angeben.
 
 ## Für Entwickler
