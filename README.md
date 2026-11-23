@@ -41,8 +41,14 @@ sudo apt update && sudo apt install -y curl git
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-Danach ein **neues** Terminal öffnen, `claude` eingeben und im Browser mit dem Claude-Konto anmelden
-(meldet das Terminal „claude: Befehl nicht gefunden“: einmal ab- und wieder anmelden). Dann schreiben:
+Danach ein **neues** Terminal öffnen, `claude` eingeben (klein geschrieben) und im Browser mit dem Claude-Konto anmelden.
+Meldet das Terminal „Befehl nicht gefunden“, fehlt nur der Suchpfad – einmal eingeben, dann geht `claude` in jedem neuen Terminal:
+
+```
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+```
+
+Dann in Claude schreiben:
 
 > Klone https://github.com/katzri/-schuetzenverein-hochdorf nach ~/schuetzenverein und richte den Server nach der CLAUDE.md darin ein.
 
