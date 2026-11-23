@@ -1,0 +1,12 @@
+# Echte Daten – gehören nie ins Repository: Buchungen, PIN-Hashes, Schlüssel, WLAN-Passwort.
+# Sie bleiben auf dem jeweiligen Server-PC (Umzug auf einen anderen Rechner: siehe README).
+server/data/
+backup/
+*.vorher-*.jsonl
+*.tmp
+
+# Alte Entwürfe und Werkzeug-Dateien
+demos/
+.claude-flow/
+.claude/
+node_modules/
