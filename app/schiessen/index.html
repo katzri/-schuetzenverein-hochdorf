@@ -20,6 +20,10 @@
     <img src="icon.svg" alt="" class="emblem">
     <div>Schießauswertung<small>Schützenverein Hochdorf</small></div>
   </div>
+  <nav class="arten" aria-label="Art des Schießens">
+    <button type="button" data-art="preis">Preisschießen<small>5 Schuss · Treffer</small></button>
+    <button type="button" data-art="pokal">Pokalschießen<small>3 Schuss · 1–10 Ringe</small></button>
+  </nav>
   <nav class="seg" role="tablist">
     <button type="button" data-tab="eintragen" class="an" role="tab">Eintragen</button>
     <button type="button" data-tab="rangliste" role="tab">Rangliste <span id="anzahl"></span></button>
@@ -47,11 +51,18 @@
         </label>
       </div>
 
-      <div class="karte">
+      <div class="karte" id="kartePreis">
         <span class="titel">Treffer <b id="trefferZahl">0 / 5</b></span>
-        <p class="hinweis">Jede getroffene Scheibe antippen.</p>
+        <p class="hinweis">Jeden Schuss antippen, der getroffen hat.</p>
         <div id="scheiben" class="scheiben"></div>
         <div class="reihe schnell" id="schnell"></div>
+      </div>
+
+      <div class="karte" id="kartePokal" hidden>
+        <span class="titel">Ringe <b id="ringeSumme">0 / 30</b></span>
+        <p class="hinweis">Schuss antippen, dann die Ringzahl wählen.</p>
+        <div id="schuesse" class="schuesse"></div>
+        <div id="tasten" class="tasten"></div>
       </div>
 
       <button type="submit" class="knopf gross rot speichern">Ergebnis speichern</button>

@@ -1,6 +1,6 @@
 // Hält die Schießauswertung auf dem Handy vor, damit sie ohne Netz startet.
 // Bei Änderungen an der App die Versionsnummer erhöhen.
-const CACHE = 'svh-schiessen-1';
+const CACHE = 'svh-schiessen-2';
 const DATEIEN = ['./', 'index.html', 'schiessen.css', 'logic.js', 'schiessen.js', 'manifest.json', 'icon.svg', 'icon-180.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

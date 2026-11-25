@@ -1,8 +1,14 @@
-// Schießauswertung – Rechenteil ohne Oberfläche (Zeit lesen/anzeigen, Rangliste, CSV).
+// Schießauswertung – Rechenteil ohne Oberfläche (Zeit lesen/anzeigen, Wertung, Rangliste, CSV).
 // Läuft im Browser (window.Schiessen) und in Node (für die Tests).
+//   Preisschießen: 5 Schuss, jeder Schuss Treffer oder kein Treffer  → Wertung = Anzahl Treffer (max. 5)
+//   Pokalschießen: 3 Schuss, jeder Schuss 1–10 Ringe (0 = vorbei)    → Wertung = Summe der Ringe (max. 30)
 (function (root) {
   'use strict';
-  const SCHEIBEN = 5;
+  const ARTEN = {
+    preis: { name: 'Preisschießen', schuesse: 5, einheit: 'Treffer', max: 5 },
+    pokal: { name: 'Pokalschießen', schuesse: 3, einheit: 'Ringe', max: 30, ringeMax: 10 },
+  };
+  const artVon = e => (e.art === 'pokal' ? 'pokal' : 'preis'); // alte Einträge ohne Art = Preisschießen
 
   // "1:23,4" → 83400 ms, "83,4" → 83400, "83" → 83000. Leer → null. Ungültig → NaN.
   function zeitLesen(text) {
@@ -26,19 +32,32 @@
     return min > 0 ? `${min}:${String(sek).padStart(2, '0')},${z}` : `${sek},${z} s`;
   }
 
-  const anzahl = e => (e.treffer || []).filter(Boolean).length;
-
-  // Mehr Treffer zuerst, bei Gleichstand die schnellere Zeit (ohne Zeit ans Ende), dann wer früher geschossen hat.
-  function vergleich(a, b) {
-    return anzahl(b) - anzahl(a)
-      || (a.zeit == null) - (b.zeit == null)
-      || (a.zeit || 0) - (b.zeit || 0)
-      || (a.datum || 0) - (b.datum || 0);
+  // Wertung: Preisschießen = Anzahl Treffer, Pokalschießen = Ringe zusammen
+  function wert(e) {
+    return artVon(e) === 'pokal'
+      ? (e.ringe || []).reduce((s, r) => s + (Number(r) || 0), 0)
+      : (e.treffer || []).filter(Boolean).length;
+  }
+  // Pokal-Gleichstand: wer die besseren Einzelschüsse hat (mehr Zehner, dann Neuner …)
+  const absteigend = e => (e.ringe || []).map(r => Number(r) || 0).sort((a, b) => b - a);
+  function einzelVergleich(a, b) {
+    const x = absteigend(a), y = absteigend(b);
+    for (let i = 0; i < Math.max(x.length, y.length); i++) if ((y[i] || 0) !== (x[i] || 0)) return (y[i] || 0) - (x[i] || 0);
+    return 0;
   }
 
-  // Liefert sortierte Einträge mit Platz; gleiche Treffer und gleiche Zeit = gleicher Platz.
-  function rangliste(eintraege, nurBester) {
-    let liste = eintraege.slice().sort(vergleich);
+  // Höhere Wertung zuerst, dann (Pokal) bessere Einzelschüsse, dann schnellere Zeit (ohne Zeit ans Ende).
+  function gleichauf(a, b) {
+    return wert(b) - wert(a)
+      || (artVon(a) === 'pokal' ? einzelVergleich(a, b) : 0)
+      || (a.zeit == null) - (b.zeit == null)
+      || (a.zeit || 0) - (b.zeit || 0);
+  }
+  const vergleich = (a, b) => gleichauf(a, b) || (a.datum || 0) - (b.datum || 0);
+
+  // Sortierte Einträge einer Art mit Platz; echter Gleichstand = gleicher Platz.
+  function rangliste(eintraege, art, nurBester) {
+    let liste = eintraege.filter(e => artVon(e) === art).sort(vergleich);
     if (nurBester) {
       const gesehen = new Set();
       liste = liste.filter(e => {
@@ -48,27 +67,30 @@
         return true;
       });
     }
-    return liste.map((e, i) => {
-      const vorher = liste[i - 1];
-      const gleich = vorher && anzahl(vorher) === anzahl(e) && vorher.zeit === e.zeit;
-      return { ...e, anzahl: anzahl(e), platz: gleich ? null : i + 1 };
-    }).map((e, i, arr) => ({ ...e, platz: e.platz == null ? arr[i - 1].platz : e.platz }));
+    const out = [];
+    liste.forEach((e, i) => {
+      const platz = i > 0 && gleichauf(liste[i - 1], e) === 0 ? out[i - 1].platz : i + 1;
+      out.push({ ...e, wert: wert(e), platz });
+    });
+    return out;
   }
 
-  function csv(eintraege, nurBester) {
+  function csv(eintraege, art, nurBester) {
+    const A = ARTEN[art];
     const feld = v => /[";\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
-    const zeilen = [['Platz', 'Name', 'Treffer', 'von', 'Zeit (s)', 'Zeit', ...Array.from({ length: SCHEIBEN }, (_, i) => `Scheibe ${i + 1}`), 'Datum']];
-    for (const e of rangliste(eintraege, nurBester)) {
+    const schuss = Array.from({ length: A.schuesse }, (_, i) => `Schuss ${i + 1}`);
+    const zeilen = [[A.name], ['Platz', 'Name', A.einheit, 'von', 'Zeit (s)', 'Zeit', ...schuss, 'Datum']];
+    for (const e of rangliste(eintraege, art, nurBester)) {
       const d = new Date(e.datum);
-      zeilen.push([e.platz, e.name, e.anzahl, SCHEIBEN,
+      const einzel = schuss.map((_, i) => art === 'pokal' ? (e.ringe[i] == null ? '' : e.ringe[i]) : (e.treffer[i] ? 'Treffer' : 'kein Treffer'));
+      zeilen.push([e.platz, e.name, e.wert, A.max,
         e.zeit == null ? '' : (e.zeit / 1000).toFixed(1).replace('.', ','), e.zeit == null ? '' : zeitText(e.zeit).replace(' s', ''),
-        ...Array.from({ length: SCHEIBEN }, (_, i) => (e.treffer[i] ? 'Treffer' : 'Fehler')),
-        isNaN(d) ? '' : d.toLocaleString('de-DE')]);
+        ...einzel, isNaN(d) ? '' : d.toLocaleString('de-DE')]);
     }
     return '﻿' + zeilen.map(z => z.map(feld).join(';')).join('\r\n') + '\r\n';
   }
 
-  const api = { SCHEIBEN, zeitLesen, zeitText, anzahl, vergleich, rangliste, csv };
+  const api = { ARTEN, artVon, zeitLesen, zeitText, wert, vergleich, rangliste, csv };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Schiessen = api;
 })(typeof window !== 'undefined' ? window : globalThis);

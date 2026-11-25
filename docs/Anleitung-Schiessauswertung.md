@@ -1,6 +1,7 @@
 # Schießauswertung aufs iPhone
 
-Eine kleine App zum Eintragen von **Name, Zeit und Treffern (von 5 Scheiben)** mit automatischer Rangliste.
+Eine kleine App zum Eintragen von **Name, Zeit und Ergebnis** mit automatischer Rangliste – getrennt für
+**Preisschießen** und **Pokalschießen**.
 Sie läuft im Browser des iPhones und wird wie eine App auf den Home-Bildschirm gelegt – ohne App Store.
 
 ## Öffnen
@@ -16,13 +17,24 @@ Der Vereins-Server liefert sie mit aus: im FRITZ!Box-WLAN auf dem iPhone in **Sa
 
 ## Bedienung
 
+Oben **Preisschießen** oder **Pokalschießen** wählen (gelb = ausgewählt). Jede Art hat ihre eigene Rangliste.
+
+| | Preisschießen | Pokalschießen |
+|---|---|---|
+| Schuss | 5 | 3 |
+| Pro Schuss | Treffer oder kein Treffer | 1 bis 10 Ringe (vorbei = 0) |
+| Ergebnis | Anzahl Treffer (höchstens 5) | Ringe zusammen (höchstens 30) |
+| Bei Gleichstand | schnellere Zeit | bessere Einzelschüsse (mehr Zehner, dann Neuner …), danach schnellere Zeit |
+
 - **Name** eintippen (bekannte Namen werden vorgeschlagen).
 - **Zeit:** mit **Start / Stopp** messen oder von Hand eintragen (z. B. `45,3` oder `1:12,5`).
-- **Treffer:** jede getroffene Scheibe 1–5 antippen – oder unten die Anzahl 0–5 direkt wählen.
+- **Preisschießen:** jeden Schuss antippen, der getroffen hat – oder unten die Anzahl 0–5 direkt wählen.
+- **Pokalschießen:** die Ringzahl für Schuss 1 antippen, dann geht es automatisch zu Schuss 2 und 3.
+  Zum Ändern einen Schuss antippen und neue Zahl wählen.
 - **Ergebnis speichern** – das Formular ist danach leer für den nächsten Schützen.
-- **Rangliste:** mehr Treffer zuerst, bei Gleichstand die schnellere Zeit. „Nur bester Versuch je Schütze“
-  blendet Wiederholungen aus. Ein Ergebnis antippen zum Löschen.
-- **Teilen / Exportieren** erzeugt eine Tabelle (CSV, öffnet in Excel/Numbers) – z. B. per Mail oder AirDrop.
+- **Rangliste:** „Nur bester Versuch je Schütze“ blendet Wiederholungen aus. Ein Ergebnis antippen zum Löschen.
+- **Teilen / Exportieren** erzeugt eine Tabelle der gerade gewählten Art (CSV, öffnet in Excel/Numbers),
+  z. B. per Mail oder AirDrop.
 
 ## Wichtig
 

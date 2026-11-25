@@ -23,7 +23,8 @@ Sprich Deutsch und einfach: Der Nutzer ist Vereinsmitglied, kein Programmierer. 
   übernommen wird sie in der Verwaltung → Produkte → „Preisliste … übernehmen“.
 - `.bat`-Dateien nur ASCII mit CRLF (sonst zerlegt cmd sie), `.ps1` als UTF-8 mit BOM. `.gitattributes` regelt die Zeilenenden.
 - Nach jeder Änderung: `node --test tests/server.test.js tests/gastro.test.js tests/qr.test.js tests/schiessen.test.js` – alles muss grün sein.
-- Schießauswertung fürs iPhone: `app/schiessen/` (Web-App, Ergebnisse nur im Speicher des Handys), erreichbar unter
+- Schießauswertung fürs iPhone: `app/schiessen/` (Web-App, Ergebnisse nur im Speicher des Handys). Preisschießen =
+  5 Schuss Treffer/kein Treffer, Pokalschießen = 3 Schuss je 1–10 Ringe; Regeln in `app/schiessen/logic.js`. Erreichbar unter
   `http://<IP>:3000/schiessen`. Anleitung: `docs/Anleitung-Schiessauswertung.md`.
 - Zum Ausprobieren eine Kopie von `app/` und `server/` (ohne `server/data`) in einen Temp-Ordner legen und mit
   anderem Port starten (`PORT=3100`). Den echten Server nie zum Testen verwenden.
