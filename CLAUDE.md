@@ -22,7 +22,9 @@ Sprich Deutsch und einfach: Der Nutzer ist Vereinsmitglied, kein Programmierer. 
 - Kein Pfand (Ausschank nur im Haus). Preisliste für ein neues Fest: `server/lib/default-products.js`;
   übernommen wird sie in der Verwaltung → Produkte → „Preisliste … übernehmen“.
 - `.bat`-Dateien nur ASCII mit CRLF (sonst zerlegt cmd sie), `.ps1` als UTF-8 mit BOM. `.gitattributes` regelt die Zeilenenden.
-- Nach jeder Änderung: `node --test tests/server.test.js tests/gastro.test.js tests/qr.test.js` – alles muss grün sein.
+- Nach jeder Änderung: `node --test tests/server.test.js tests/gastro.test.js tests/qr.test.js tests/schiessen.test.js` – alles muss grün sein.
+- Schießauswertung fürs iPhone: `app/schiessen/` (Web-App, Ergebnisse nur im Speicher des Handys), erreichbar unter
+  `http://<IP>:3000/schiessen`. Anleitung: `docs/Anleitung-Schiessauswertung.md`.
 - Zum Ausprobieren eine Kopie von `app/` und `server/` (ohne `server/data`) in einen Temp-Ordner legen und mit
   anderem Port starten (`PORT=3100`). Den echten Server nie zum Testen verwenden.
 

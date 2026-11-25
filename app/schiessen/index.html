@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6b3a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Schießen">
+<title>Schießauswertung</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="schiessen.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="marke">
+    <img src="icon.svg" alt="" class="emblem">
+    <div>Schießauswertung<small>Schützenverein Hochdorf</small></div>
+  </div>
+  <nav class="seg" role="tablist">
+    <button type="button" data-tab="eintragen" class="an" role="tab">Eintragen</button>
+    <button type="button" data-tab="rangliste" role="tab">Rangliste <span id="anzahl"></span></button>
+  </nav>
+</header>
+
+<main>
+  <section id="eintragen">
+    <form id="form" autocomplete="off" novalidate>
+      <label class="karte">
+        <span class="titel">Name</span>
+        <input id="name" name="name" list="namen" placeholder="Vor- und Nachname" enterkeyhint="done" autocapitalize="words" maxlength="60">
+        <datalist id="namen"></datalist>
+      </label>
+
+      <div class="karte">
+        <span class="titel">Zeit</span>
+        <div id="uhr" class="uhr" aria-live="off">0,0 s</div>
+        <div class="reihe">
+          <button type="button" id="startStopp" class="knopf gross gruen">Start</button>
+          <button type="button" id="uhrNull" class="knopf">Zurück auf 0</button>
+        </div>
+        <label class="klein">oder von Hand eintragen (z. B. 45,3 oder 1:12,5)
+          <input id="zeit" inputmode="decimal" placeholder="Sekunden">
+        </label>
+      </div>
+
+      <div class="karte">
+        <span class="titel">Treffer <b id="trefferZahl">0 / 5</b></span>
+        <p class="hinweis">Jede getroffene Scheibe antippen.</p>
+        <div id="scheiben" class="scheiben"></div>
+        <div class="reihe schnell" id="schnell"></div>
+      </div>
+
+      <button type="submit" class="knopf gross rot speichern">Ergebnis speichern</button>
+    </form>
+  </section>
+
+  <section id="rangliste" hidden>
+    <div class="karte leiste">
+      <label class="schalter"><input type="checkbox" id="nurBester"> Nur bester Versuch je Schütze</label>
+      <div class="reihe">
+        <button type="button" id="teilen" class="knopf">Teilen / Exportieren</button>
+        <button type="button" id="drucken" class="knopf">Drucken</button>
+      </div>
+    </div>
+    <ol id="liste" class="liste"></ol>
+    <p id="leer" class="leer">Noch keine Ergebnisse eingetragen.</p>
+    <button type="button" id="alleLoeschen" class="knopf leise">Alle Ergebnisse löschen …</button>
+  </section>
+</main>
+
+<dialog id="dlg"></dialog>
+<div id="meldung" class="meldung" aria-live="polite"></div>
+<script src="logic.js"></script>
+<script src="schiessen.js"></script>
+</body>
+</html>
