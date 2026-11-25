@@ -223,12 +223,10 @@ function events(req, res, url) {
 
 function serveFile(pathname, res) {
   let rel;
-  try { rel = decodeURIComponent(pathname.endsWith('/') ? pathname + 'index.html' : pathname); } catch { res.writeHead(400); return res.end(); }
+  try { rel = decodeURIComponent(pathname === '/' ? '/index.html' : pathname); } catch { res.writeHead(400); return res.end(); }
   const file = path.normalize(path.join(ROOT, rel));
   if (!file.startsWith(ROOT + path.sep)) { res.writeHead(403); return res.end(); }
   fs.readFile(file, (err, data) => {
-    // Unterordner wie /schiessen ohne Schrägstrich am Ende: weiterleiten, damit die relativen Pfade stimmen
-    if (err && err.code === 'EISDIR') { res.writeHead(301, { Location: '/' + path.relative(ROOT, file).split(path.sep).join('/') + '/' }); return res.end(); }
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Nicht gefunden'); }
     res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
     res.end(data);
